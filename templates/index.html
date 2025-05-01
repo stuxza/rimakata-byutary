@@ -2,7 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Pencarian Rima Kata</title>
+    <title>byutary~</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -12,16 +13,9 @@
             padding: 40px;
             max-width: 700px;
             margin: auto;
+            scroll-behavior: smooth;
         }
 
-        td {
-            text-align: center;
-        }
-        
-        table td, table th {
-            font-size: 1.11rem;
-        }
-        
         h2 {
             text-align: center;
             color: #d63384;
@@ -35,8 +29,40 @@
             margin-bottom: 30px;
         }
 
-        label {
+        .radio-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        .radio-button {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: #ffc2d6;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            color: #880e4f;
+            caret-color: transparent;
+        }
+
+        input[type="radio"]:checked + .radio-button {
+            background-color: #ff66a3;
+            border-color: #c2185b;
+            color: white;
+        }
+
+        label[for="pola"] {
             display: block;
+            margin-top: 20px;
             margin-bottom: 10px;
             font-weight: 600;
         }
@@ -45,14 +71,10 @@
             width: 100%;
             padding: 10px;
             margin-top: 6px;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
             border: 2px solid #f7b3d6;
             border-radius: 10px;
             box-sizing: border-box;
-        }
-
-        input[type="radio"] {
-            margin-right: 8px;
         }
 
         button {
@@ -64,6 +86,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: background 0.3s;
+            width: 100%;
         }
 
         button:hover {
@@ -96,29 +119,29 @@
         em {
             color: #c2185b;
         }
+
+        td {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <h2>💖 Pencarian Rima Kata</h2>
 
     <form method="POST" class="form-section">
-        <label>
-            <input type="radio" name="jenis" value="prefix" required {% if jenis == 'prefix' %}checked{% endif %}>
-            Awalan (Prefix)
-        </label>
-        <label>
-            <input type="radio" name="jenis" value="infix" {% if jenis == 'infix' %}checked{% endif %}>
-            Mengandung (Infix)
-        </label>
-        <label>
-            <input type="radio" name="jenis" value="suffix" {% if jenis == 'suffix' %}checked{% endif %}>
-            Akhiran (Suffix)
-        </label>
+        <div class="radio-group">
+            <input type="radio" id="prefix" name="jenis" value="prefix" required {% if jenis == 'prefix' %}checked{% endif %}>
+            <label class="radio-button" for="prefix">Awalan</label>
 
-        <label>
-            Masukkan Pola Kata:
-            <input type="text" name="pola" required value="{{ pola }}">
-        </label>
+            <input type="radio" id="infix" name="jenis" value="infix" {% if jenis == 'infix' %}checked{% endif %}>
+            <label class="radio-button" for="infix">Mengandung</label>
+
+            <input type="radio" id="suffix" name="jenis" value="suffix" {% if jenis == 'suffix' %}checked{% endif %}>
+            <label class="radio-button" for="suffix">Akhiran</label>
+        </div>
+
+        <label for="pola">Masukkan Pola Kata:</label>
+        <input type="text" id="pola" name="pola" required value="{{ pola }}">
 
         <button type="submit">🔍 Cari Kata</button>
     </form>
@@ -140,5 +163,9 @@
     {% elif jenis %}
         <p><em>Tidak ditemukan hasil untuk '{{ pola }}'.</em></p>
     {% endif %}
+
+    <footer>
+        <p style="text-align: center; font-size: 12px; opacity: 50%;">byutary©2025</p>
+    </footer>
 </body>
 </html>
