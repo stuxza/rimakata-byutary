@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pencarian Rima Kata</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffe6f0;
+            color: #444;
+            padding: 40px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #d63384;
+        }
+
+        .form-section {
+            background-color: #fff0f5;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border: 2px solid #f7b3d6;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: #ff66a3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e05590;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff5fa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f2dbe9;
+        }
+
+        th {
+            background-color: #ffccdd;
+            color: #880e4f;
+        }
+
+        tr:hover {
+            background-color: #ffe9f1;
+        }
+
+        em {
+            color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+    <h2>💖 Pencarian Rima Kata</h2>
+
+    <form method="POST" class="form-section">
+        <label>
+            <input type="radio" name="jenis" value="prefix" required {% if jenis == 'prefix' %}checked{% endif %}>
+            Awalan (Prefix)
+        </label>
+        <label>
+            <input type="radio" name="jenis" value="infix" {% if jenis == 'infix' %}checked{% endif %}>
+            Mengandung (Infix)
+        </label>
+        <label>
+            <input type="radio" name="jenis" value="suffix" {% if jenis == 'suffix' %}checked{% endif %}>
+            Akhiran (Suffix)
+        </label>
+
+        <label>
+            Masukkan Pola Kata:
+            <input type="text" name="pola" required value="{{ pola }}">
+        </label>
+
+        <button type="submit">🔍 Cari Kata</button>
+    </form>
+
+    {% if hasil %}
+        <h3>✨ Hasil: {{ jenis|capitalize }} <span style="color:#d63384;">'{{ pola }}'</span></h3>
+        <table>
+            <tr>
+                <th>No</th>
+                <th>Kata</th>
+            </tr>
+            {% for kata in hasil %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ kata }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elif jenis %}
+        <p><em>Tidak ditemukan hasil untuk '{{ pola }}'.</em></p>
+    {% endif %}
+</body>
+</html>
