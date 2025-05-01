@@ -14,6 +14,7 @@
             max-width: 700px;
             margin: auto;
             scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h2 {
@@ -27,6 +28,7 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             margin-bottom: 30px;
+            transition: background-color 0.3s;
         }
 
         .radio-group {
@@ -75,6 +77,7 @@
             border: 2px solid #f7b3d6;
             border-radius: 10px;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         button {
@@ -93,39 +96,104 @@
             background-color: #e05590;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .kata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
             background-color: #fff5fa;
+            padding: 20px;
             border-radius: 12px;
-            overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: background-color 0.3s;
         }
 
-        th, td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f2dbe9;
-        }
-
-        th {
+        .kata-item {
             background-color: #ffccdd;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
             color: #880e4f;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+            word-break: break-word;
         }
 
-        tr:hover {
-            background-color: #ffe9f1;
+        .kata-item:hover {
+            background-color: #ffe6ef;
         }
 
         em {
             color: #c2185b;
         }
 
-        td {
+        footer {
             text-align: center;
+            font-size: 12px;
+            opacity: 50%;
+            margin-top: 40px;
+        }
+
+        /* 🌙 DARK MODE */
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #eee;
+        }
+
+        .dark-mode .form-section {
+            background-color: #2b2b2b;
+            box-shadow: none;
+        }
+
+        .dark-mode .radio-button {
+            background-color: #444;
+            color: #eee;
+        }
+
+        .dark-mode input[type="radio"]:checked + .radio-button {
+            background-color: #d63384;
+            color: white;
+        }
+
+        .dark-mode input[type="text"] {
+            background-color: #333;
+            border-color: #666;
+            color: white;
+        }
+
+        .dark-mode button {
+            background-color: #d63384;
+        }
+
+        .dark-mode button:hover {
+            background-color: #b02c6d;
+        }
+
+        .dark-mode .kata-grid {
+            background-color: #333;
+        }
+
+        .dark-mode .kata-item {
+            background-color: #444;
+            color: #fdd;
+        }
+
+        .dark-mode .kata-item:hover {
+            background-color: #555;
+        }
+
+        .dark-mode em {
+            color: #f880b0;
+        }
+
+        .dark-mode .toggle-theme {
+            background-color: #444;
+            color: #eee;
         }
     </style>
 </head>
 <body>
+    <button class="toggle-theme" id="toggleTheme">🌙</button>
+
     <h2>💖 Pencarian Rima Kata</h2>
 
     <form method="POST" class="form-section">
@@ -148,24 +216,45 @@
 
     {% if hasil %}
         <h3>✨ Hasil: {{ jenis|capitalize }} <span style="color:#d63384;">'{{ pola }}'</span></h3>
-        <table>
-            <tr>
-                <th>No</th>
-                <th>Kata</th>
-            </tr>
+        <div class="kata-grid">
             {% for kata in hasil %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ kata }}</td>
-                </tr>
+                <div class="kata-item">{{ kata }}</div>
             {% endfor %}
-        </table>
+        </div>
     {% elif jenis %}
         <p><em>Tidak ditemukan hasil untuk '{{ pola }}'.</em></p>
     {% endif %}
 
     <footer>
-        <p style="text-align: center; font-size: 12px; opacity: 50%;">byutary©2025</p>
+        <p>byutary©2025</p>
     </footer>
+
+    <script>
+        const toggle = document.getElementById('toggleTheme');
+        const body = document.body;
+
+        function setTheme(mode) {
+            if (mode === 'dark') {
+                body.classList.add('dark-mode');
+                toggle.textContent = '🌞';
+            } else {
+                body.classList.remove('dark-mode');
+                toggle.textContent = '🌙';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        }
+
+        toggle.addEventListener('click', () => {
+            const isDark = body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            toggle.textContent = isDark ? '🌞' : '🌙';
+        });
+    </script>
 </body>
 </html>
